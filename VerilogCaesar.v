@@ -1,7 +1,7 @@
 //NOTE THIS ISN'T THE ACTUAL IMPLEMENATION, THIS IS JUST CODE COPIED FROM THE ASSIGNMENT
 
 // uses a 1-digit bcd counter enabled at 1Hz
-module part4 (CLOCK_50, HEX0);
+module VerilogCaesar (CLOCK_50, HEX0);
 	input CLOCK_50;
 	output [0:6] HEX0;
 
@@ -27,6 +27,8 @@ module part4 (CLOCK_50, HEX0);
 				
 	assign bcd = digit_flipper;
 	// drive the display through a 7-seg decoder
-	bcd7seg digit_0 (bcd, HEX0);
+	bcd7seg digit_0(
+					.bcd(bcd), 
+					.display(HEX0));
 	
 endmodule

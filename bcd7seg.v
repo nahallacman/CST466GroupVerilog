@@ -31,3 +31,5 @@ module bcd7seg (bcd, display);
 			4'h9: display = 7'b0000100;
 			default: display = 7'bx;
 		endcase
+		
+endmodule
