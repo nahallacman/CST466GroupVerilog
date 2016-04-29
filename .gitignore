@@ -37,8 +37,7 @@
 *.sld
 *.qdf
 c5_pin_model_dump.txt
-
-*.db_info
-db/VerilogCaesar.db_info
 *.qsf
-VerilogCaesar.qsf
+*.xml
+*.tmw_info
+*.cdf
