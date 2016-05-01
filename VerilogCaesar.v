@@ -31,6 +31,10 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 	wire [3:0] bcd0, bcd1, bcd2, bcd3, bcd4, bcd5;
 	wire [1:0] hundredsFiller;
 	wire [5:0] encryptOutput;
+	wire [5:0] decryptOutput;
+	
+	wire [5:0] pair1Out;
+	wire [5:0] pair2Out;
 	//wire [5:0] digit_total;
 	
 	//reg[3:0] digit_flipper;
@@ -93,7 +97,9 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 	//assign bcd2 = {2'b0, digit_flipper2};
 	
 	//assign digit_total = 6'b000000;
-
+	
+	assign pair1Out = (ENCRYPT) ? digit_flipper_ext : encryptOutput ;
+	assign pair2Out = (ENCRYPT) ? decryptOutput : digit_flipper_ext ;
 	binary_to_BCD bin_to_bcd0(
 					.A(SW),
 					.ONES(bcd4),
@@ -102,14 +108,14 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 					);
 	
 	binary_to_BCD bin_to_bcd1(
-					.A(digit_flipper_ext),
+					.A(pair1Out),
 					.ONES(bcd2),
 					.TENS(bcd3),
 					.HUNDREDS(hundredsFiller)
 					);
 					
 	binary_to_BCD bin_to_bcd2(
-					.A(encryptOutput), // this will have to be attached to a mux later
+					.A(pair2Out),
 					.ONES(bcd0),
 					.TENS(bcd1),
 					.HUNDREDS(hundredsFiller)
@@ -150,6 +156,12 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 				.plaintext(digit_flipper_ext), 
 				.key(SW), 
 				.cyphertext(encryptOutput)
+	);
+	
+	CasesarDecrypt decrypt_module(
+				.plaintext(digit_flipper_ext), 
+				.key(SW), 
+				.cyphertext(decryptOutput)
 	);
 	
 endmodule
