@@ -3,5 +3,5 @@ input [0:5] plaintext;
 input [0:5] key;
 output [0:5] cyphertext;
 
-assign cyphertext = ( plaintext + key ) % 25;
+assign cyphertext = ( plaintext + key ) % 26;
 endmodule
