@@ -6,7 +6,7 @@ TODO:
 	Casear Decrypt Module - needs checking
 	Display all 3 pairs of 7 segment displays - done
 	Count up by 1 every second - done
-	Switch between encrypt and decrypt - needs checking
+	Switch between encrypt and decrypt - done
 	Fix switch placement and direction on board (currently wrong direction and off by one placement) - done
 	bcd to decimals - done
 	bcd to hex - done

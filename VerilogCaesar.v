@@ -33,8 +33,8 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 	wire [5:0] encryptOutput;
 	wire [5:0] decryptOutput;
 	
-	wire [5:0] pair1Out;
-	wire [5:0] pair2Out;
+	wire [5:0] pairOut;
+	//wire [5:0] pair2Out;
 	//wire [5:0] digit_total;
 	
 	//reg[3:0] digit_flipper;
@@ -98,8 +98,11 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 	
 	//assign digit_total = 6'b000000;
 	
-	assign pair1Out = (ENCRYPT) ? digit_flipper_ext : encryptOutput ;
-	assign pair2Out = (ENCRYPT) ? decryptOutput : digit_flipper_ext ;
+	//mux outputs to the correct side on the encrypt switch
+	assign pairOut[5:0] = (ENCRYPT) ? encryptOutput[5:0] : decryptOutput[5:0]  ;
+	//assign pair2Out = (ENCRYPT) ? encryptOutput : decryptOutput ;
+	
+	
 	binary_to_BCD bin_to_bcd0(
 					.A(SW),
 					.ONES(bcd4),
@@ -108,14 +111,14 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 					);
 	
 	binary_to_BCD bin_to_bcd1(
-					.A(pair1Out),
+					.A(digit_flipper_ext),
 					.ONES(bcd2),
 					.TENS(bcd3),
 					.HUNDREDS(hundredsFiller)
 					);
 					
 	binary_to_BCD bin_to_bcd2(
-					.A(pair2Out),
+					.A(pairOut),
 					.ONES(bcd0),
 					.TENS(bcd1),
 					.HUNDREDS(hundredsFiller)
