@@ -37,6 +37,8 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 	//wire [5:0] pair2Out;
 	//wire [5:0] digit_total;
 	
+	reg [0:4] SW_Round;
+	
 	//reg[3:0] digit_flipper;
 	//reg[1:0] digit_flipper2;
 	//reg[5:0] digit_total;
@@ -77,6 +79,14 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 	end
 	*/
 	
+	always @ (SW)
+	begin
+		if (SW > 24)
+			SW_Round = 6'd25;
+		else
+			SW_Round = SW;
+	end
+	
 	// decimal counters that will eventually be converted to bcd
 	always @ (posedge clk_1Hz)
 	begin
@@ -99,12 +109,12 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 	//assign digit_total = 6'b000000;
 	
 	//mux outputs to the correct side on the encrypt switch
-	assign pairOut[5:0] = (ENCRYPT) ? encryptOutput[5:0] : decryptOutput[5:0]  ;
+	assign pairOut[5:0] = (!ENCRYPT) ? encryptOutput[5:0] : decryptOutput[5:0]  ;
 	//assign pair2Out = (ENCRYPT) ? encryptOutput : decryptOutput ;
 	
 	
 	binary_to_BCD bin_to_bcd0(
-					.A(SW),
+					.A(SW_Round),
 					.ONES(bcd4),
 					.TENS(bcd5),
 					.HUNDREDS(hundredsFiller)
@@ -157,13 +167,13 @@ module VerilogCaesar (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5)
 				
 	CasesarEncrypt encrypt_module(
 				.plaintext(digit_flipper_ext), 
-				.key(SW), 
+				.key(SW_Round), 
 				.cyphertext(encryptOutput)
 	);
 	
 	CasesarDecrypt decrypt_module(
 				.plaintext(digit_flipper_ext), 
-				.key(SW), 
+				.key(SW_Round), 
 				.cyphertext(decryptOutput)
 	);
 	
