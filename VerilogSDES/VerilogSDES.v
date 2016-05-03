@@ -19,7 +19,7 @@
 module VerilogSDES (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
 	input CLOCK_50;
 	input ENCRYPT;
-	input [0:4]SW;
+	input [0:9]SW;
 	output [0:6] HEX0;
 	output [0:6] HEX1;
 	output [0:6] HEX2;
@@ -36,6 +36,14 @@ module VerilogSDES (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
 	wire [5:0] pairOut;
 	//wire [5:0] pair2Out;
 	//wire [5:0] digit_total;
+	
+	wire [9:0] K1;
+	wire [9:0] K2;
+	
+	//wires for connecting the key generation pieces together
+	wire [9:0] p10_1_out;
+	wire [9:0] rotL1_1_out;
+	wire [9:0] rotL2_1_out;
 	
 	reg [0:4] SW_Round;
 	
@@ -165,15 +173,49 @@ module VerilogSDES (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
 				.display(HEX5)
 				);
 				
-	CasesarEncrypt encrypt_module(
+	P10 p10_01(
+		.in(SW),
+		.out(p10_1_out)
+	);
+				
+	RotL1 rotL1_01(
+		.in(p10_1_out),
+		.out(rotL1_1_out)	
+	);
+	
+	P8 p8_01(
+		.in(rotL1_1_out),
+		.out(K1)		
+	);
+	
+	RotL2 rotL2_01(
+		.in(rotL1_1_out),
+		.out(rotL2_1_out)		
+	);
+	
+	P8 p8_02(
+		.in(rotL2_1_out),
+		.out(K2)		
+	);
+	
+/*	
+	SDESEncrypt encrypt_module( // todo: UPDATE THESE INPUTS AND OUTPUTS
 				.plaintext(digit_flipper_ext), 
 				.key(SW_Round), 
 				.cyphertext(encryptOutput)
 	);
-	
-	CasesarDecrypt decrypt_module(
+	*/
+	SDESEncrypt encrypt_module( // todo: UPDATE THESE INPUTS AND OUTPUTS
 				.plaintext(digit_flipper_ext), 
-				.key(SW_Round), 
+				.k1(K1),
+				.k2(K2),
+				.cyphertext(encryptOutput)
+	);
+	
+	SDESDecrypt decrypt_module( // todo: UPDATE THESE INPUTS AND OUTPUTS
+				.plaintext(digit_flipper_ext), 
+				.k1(K1),
+				.k2(K2),
 				.cyphertext(decryptOutput)
 	);
 	
