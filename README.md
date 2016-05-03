@@ -27,9 +27,9 @@ SDES TODO:
 	RotL1 - done not tested
 	RotL2 - done not tested
 	IP - done not tested
-	Fk - not done
+	Fk - done not tested
 		S0 - done not tested
-		S1 - not done
+		S1 - done not tested
 		P4 - done not tested
 	SW - done not tested
 	IP inverse - done not tested
