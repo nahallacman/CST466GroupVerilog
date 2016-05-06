@@ -42,3 +42,9 @@ c5_pin_model_dump.txt
 *.tmw_info
 *.cdf
 *.nvd
+*.dat
+*.tdf
+*.qws
+VerilogSDES/db/lpm_divide_m3m.tdf
+*.tdf
+VerilogSDES/db/lpm_divide_m3m.tdf
