@@ -37,15 +37,15 @@ module VerilogSDES (CLOCK_50, SW, DECRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
 	//wire [5:0] pair2Out;
 	//wire [5:0] digit_total;
 	
-	wire [9:0] K1;
-	wire [9:0] K2;
+	wire [7:0] K1;
+	wire [7:0] K2;
 	
 	//wires for connecting the key generation pieces together
 	wire [9:0] p10_1_out;
 	wire [9:0] rotL1_1_out;
 	wire [9:0] rotL2_1_out;
 	
-	reg [0:4] SW_Round;
+	reg [0:9] SW_Round;
 	
 	//reg[3:0] digit_flipper;
 	//reg[1:0] digit_flipper2;
