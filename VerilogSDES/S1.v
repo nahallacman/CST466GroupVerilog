@@ -4,7 +4,6 @@ output [0:1] out;
 reg [0:1] out;
 
 //assign out = {in[2-1], in[4-1]};  // todo: make lookup table
-
 always@(in)
 case(in)
 	4'b0000: out = 2'b00;
