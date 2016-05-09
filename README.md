@@ -14,14 +14,14 @@ Caesar TODO:
 	
 SDES TODO:
 	SDES Encrypt Module - all connected, not tested
-	SDES Decrypt Module - not done
+	SDES Decrypt Module - done
 	Display all 3 pairs of 7 segment displays - done
 	Count up by 1 every second - done
 	Switch between encrypt and decrypt - not done
-	Fix switch placement and direction on board - not done
+	Fix switch placement and direction on board - done
 	bcd to decimals - done
 	bcd to hex - done
-	create hex outputs instead of bcd outputs (needed to display all 8 bits of key) - not done
+	create hex outputs instead of bcd outputs (needed to display all 8 bits of key) - done
 	P10 - done not tested
 	P8 - done not tested
 	RotL1 - done not tested
