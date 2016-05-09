@@ -7,6 +7,8 @@ wire[0:7] EP_out;
 wire[0:7] xor_1_out;
 wire[0:1] S0_out;
 wire[0:1] S1_out;
+wire[0:3] p4_out;
+wire[0:3] xor_2_out;
 
 EP fk_EP(
 .in(in[4:7]),
@@ -27,7 +29,11 @@ S1 fk_S1(
 
 P4 fk_P4(
 .in({S0_out, S1_out}),
-.out(out)
+.out(p4_out)
 );
+
+assign xor_2_out = p4_out ^ in[0:3];
+
+assign out = {xor_2_out, in[4:7]};
 
 endmodule

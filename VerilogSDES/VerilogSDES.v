@@ -16,9 +16,9 @@
 
 
 // uses a 1-digit bcd counter enabled at 1Hz
-module VerilogSDES (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+module VerilogSDES (CLOCK_50, SW, DECRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
 	input CLOCK_50;
-	input ENCRYPT;
+	input DECRYPT;
 	input [0:9]SW;
 	output [0:6] HEX0;
 	output [0:6] HEX1;
@@ -37,15 +37,15 @@ module VerilogSDES (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
 	//wire [5:0] pair2Out;
 	//wire [5:0] digit_total;
 	
-	wire [9:0] K1;
-	wire [9:0] K2;
+	wire [7:0] K1;
+	wire [7:0] K2;
 	
 	//wires for connecting the key generation pieces together
 	wire [9:0] p10_1_out;
 	wire [9:0] rotL1_1_out;
 	wire [9:0] rotL2_1_out;
 	
-	reg [0:4] SW_Round;
+	reg [0:9] SW_Round;
 	
 	//reg[3:0] digit_flipper;
 	//reg[1:0] digit_flipper2;
@@ -117,7 +117,7 @@ module VerilogSDES (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
 	//assign digit_total = 6'b000000;
 	
 	//mux outputs to the correct side on the encrypt switch
-	assign pairOut[5:0] = (!ENCRYPT) ? encryptOutput[5:0] : decryptOutput[5:0]  ;
+	assign pairOut[5:0] = (DECRYPT) ? encryptOutput[5:0] : decryptOutput[5:0]  ;
 	//assign pair2Out = (ENCRYPT) ? encryptOutput : decryptOutput ;
 	
 	
@@ -174,7 +174,7 @@ module VerilogSDES (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
 				);
 				
 	P10 p10_01(
-		.in(SW),
+		.in(SW_Round),
 		.out(p10_1_out)
 	);
 				
@@ -213,10 +213,10 @@ module VerilogSDES (CLOCK_50, SW, ENCRYPT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
 	);
 	
 	SDESDecrypt decrypt_module( // todo: UPDATE THESE INPUTS AND OUTPUTS
-				.plaintext(digit_flipper_ext), 
+				.cyphertext(digit_flipper_ext), 
 				.k1(K1),
 				.k2(K2),
-				.cyphertext(decryptOutput)
+				.plaintext(decryptOutput)
 	);
 	
 endmodule
