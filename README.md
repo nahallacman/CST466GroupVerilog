@@ -1,6 +1,7 @@
 # CST466GroupVerilog
 Class group work for all Verilog projects in CST466.
 
+```
 Caesar TODO:
 	Caesar Encrypt Module - done
 	Casear Decrypt Module - needs checking
@@ -11,7 +12,9 @@ Caesar TODO:
 	bcd to decimals - done
 	bcd to hex - done
 	round key input to 25 - done
-	
+```
+
+```
 SDES TODO:
 	SDES Encrypt Module - all connected, not tested
 	SDES Decrypt Module - done
@@ -33,5 +36,5 @@ SDES TODO:
 		P4 - done not tested
 	SW - done not tested
 	IP inverse - done not tested
-	
+```
 	
